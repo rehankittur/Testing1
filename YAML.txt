@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unite-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unite-app
+  template:
+    metadata:
+      labels:
+        app: unite-app
+    spec:
+      containers:
+      - name: unite-app
+        image: acrunite.azurecr.io/cnalabnds/unite.integration.imageservice:810
+        imagePullPolicy: IfNotPresent
+#        resources:
+#          requests:
+#            cpu: 100m
+#            memory: 128Mi
+#          limits:
+#            cpu: 250m
+#            memory: 256Mi
+        ports:
+        - name: port80
+          containerPort: 80
+        - name: port2222
+          containerPort: 2222
+        - name: port3000
+          containerPort: 3000
+        env:
+        - name: testEnv
+          value: "value-of-testEnv"
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unite-app
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  - name: port2222 
+    port: 2222
+    targetPort: 2222
+  - name: port3000
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: unite-app
