@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: acruniteazurecriocnalabndsuniteintegrationimageser 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: acruniteazurecriocnalabndsuniteintegrationimageser
+  template:
+    metadata:
+      labels:
+        app: acruniteazurecriocnalabndsuniteintegrationimageser 
+    spec:
+      containers:
+        - name: acruniteazurecriocnalabndsuniteintegrationimageser 
+          image: acrunite.azurecr.io/acruniteazurecriocnalabndsuniteintegrationimageser
+          ports:
+          - containerPort: 810
